@@ -529,7 +529,6 @@
      СКРИПТЫ
      ============================================= -->
 <script>
-
     /* ===========================================
        ССЫЛКА НА ЯНДЕКС.КАРТЫ — РЕДАКТИРУЙТЕ ЗДЕСЬ
        =========================================== */
@@ -537,10 +536,8 @@
 
     /* ===========================================
        ЗАДЕРЖКА ПЕРЕД РЕДИРЕКТОМ (в миллисекундах)
-       2000 = 2 секунды
        =========================================== */
     const REDIRECT_DELAY = 2000;
-
 
     // Состояние
     let selectedRating = 0;
@@ -555,6 +552,15 @@
         star.addEventListener('click', () => {
             selectedRating = parseInt(star.dataset.value);
             updateStars();
+
+            // Проверяем имя
+            userName = document.getElementById('userName').value.trim();
+            if (!userName) {
+                alert('Пожалуйста, введите ваше имя');
+                document.getElementById('userName').focus();
+                return;
+            }
+
             handleStarClick();
         });
 
@@ -578,40 +584,25 @@
 
     // ===== ЛОГИКА ПОСЛЕ КЛИКА НА ЗВЕЗДУ =====
     function handleStarClick() {
-    userName = document.getElementById('userName').value.trim();
-    userDate = document.getElementById('userDate').value.trim();
-
-    // Проверка имени
-    if (!userName) {
-        alert('Пожалуйста, введите ваше имя');
-        document.getElementById('userName').focus();
-        selectedRating = 0;
-        updateStars();
-        return;
-    }
-
-    if (selectedRating >= 4) {
         userName = document.getElementById('userName').value.trim();
         userDate = document.getElementById('userDate').value.trim();
 
         if (selectedRating >= 4) {
-            // === ПОЗИТИВ: скрываем форму отзыва, показываем сообщение, редиректим ===
+            // === ПОЗИТИВ ===
             document.getElementById('negativeReviewBlock').style.display = 'none';
             document.getElementById('redirectMessage').style.display = 'block';
 
-            // Отправляем данные на FormSubmit
             document.getElementById('hfPosName').value = userName || 'Не указано';
             document.getElementById('hfPosDate').value = userDate || 'Не указано';
             document.getElementById('hfPosRating').value = selectedRating + ' из 5';
             document.getElementById('hiddenFormPositive').submit();
 
-            // Редирект через задержку
             setTimeout(() => {
                 window.location.href = YANDEX_MAPS_URL;
             }, REDIRECT_DELAY);
 
         } else {
-            // === НЕГАТИВ: показываем поле для отзыва ===
+            // === НЕГАТИВ ===
             document.getElementById('redirectMessage').style.display = 'none';
             document.getElementById('negativeReviewBlock').style.display = 'block';
         }
@@ -623,14 +614,12 @@
         userDate = document.getElementById('userDate').value.trim();
         reviewText = document.getElementById('userReview').value.trim();
 
-        // Отправляем на FormSubmit
         document.getElementById('hfNegName').value = userName || 'Не указано';
         document.getElementById('hfNegDate').value = userDate || 'Не указано';
         document.getElementById('hfNegRating').value = selectedRating + ' из 5';
         document.getElementById('hfNegReview').value = reviewText || 'Без текста';
         document.getElementById('hiddenFormNegative').submit();
 
-        // Скрыть форму, показать негативный блок
         document.getElementById('formSection').style.display = 'none';
         document.getElementById('negativeSection').style.display = 'block';
     }
@@ -688,7 +677,6 @@
 
         input.value = formatted;
     }
-
 </script>
 
 </body>
