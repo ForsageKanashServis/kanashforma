@@ -573,6 +573,19 @@
 
     // ===== ЛОГИКА ПОСЛЕ КЛИКА НА ЗВЕЗДУ =====
     function handleStarClick() {
+    userName = document.getElementById('userName').value.trim();
+    userDate = document.getElementById('userDate').value.trim();
+
+    // Проверка имени
+    if (!userName) {
+        alert('Пожалуйста, введите ваше имя');
+        document.getElementById('userName').focus();
+        selectedRating = 0;
+        updateStars();
+        return;
+    }
+
+    if (selectedRating >= 4) {
         userName = document.getElementById('userName').value.trim();
         userDate = document.getElementById('userDate').value.trim();
 
